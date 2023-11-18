@@ -11,4 +11,6 @@ import { CommonModule } from '@angular/common';
 })
 export class MemoryCardComponent {
   @Input() card!: Card;
+
+  
 }
