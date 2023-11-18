@@ -20,14 +20,12 @@ export class GameBoardComponent implements AfterViewInit {
     attempts: number = 0;
     isGameStarted: boolean = false;
 
-
     constructor() {
         this.initializeCards();
     }
+
     ngAfterViewInit(): void {
-        if (this.isGameStarted) {
-            this.scoreboardComponent?.startTimer();
-        }
+        // Hier nicht benötigt
     }
 
     initializeCards(): void {
@@ -50,19 +48,19 @@ export class GameBoardComponent implements AfterViewInit {
     }
 
     flipCard(card: Card): void {
-        if (!card.isMatched) {
+        if (!card.isMatched && this.flippedCards.length < 2) {
             card.isFlipped = !card.isFlipped;
 
             if (card.isFlipped) {
                 this.flippedCards.push(card);
-                this.checkMatch();
-            }
-            if (!this.isGameStarted) {
-                this.isGameStarted = true;
-                this.scoreboardComponent?.startTimer();
-            }
-            else {
-                this.removeCardFromFlipped(card);
+                if (!this.isGameStarted) {
+                    this.isGameStarted = true;
+                    this.scoreboardComponent?.startTimer();
+                }
+
+                if (this.flippedCards.length === 2) {
+                    this.checkMatch();
+                }
             }
         }
     }
@@ -92,11 +90,4 @@ export class GameBoardComponent implements AfterViewInit {
             this.flippedCards = [];
         }
     }
-
-
-    removeCardFromFlipped(card: Card): void {
-        this.flippedCards = this.flippedCards.filter(c => c.id !== card.id);
-    }
-
-
 }
