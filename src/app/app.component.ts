@@ -15,7 +15,7 @@ import { ScoreboardComponent } from "./scoreboard/scoreboard.component";
         CommonModule,
         RouterOutlet,
         TableComponent,
-        GameBoardComponent,
+        GameBoardComponent, 
         ScoreboardComponent
     ]
 })

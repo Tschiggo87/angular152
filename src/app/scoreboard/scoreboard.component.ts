@@ -3,14 +3,33 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-scoreboard',
+  styleUrls: ['./scoreboard.component.css'],
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './scoreboard.component.html',
-  styleUrls: ['./scoreboard.component.css']  // Korrektur: styleUrls statt styleUrl
+  templateUrl: './scoreboard.component.html'
 })
 export class ScoreboardComponent {
   @Input() matchedPairs: number = 0;
   @Input() attempts: number = 0;
+  timer: number = 0;
+  intervalId: any;
 
+  ngOnInit() {
+    //this.startTimer();
+  }
 
+  ngOnDestroy() {
+    this.stopTimer();
+  }
+
+  startTimer() {
+    this.intervalId = setInterval(() => {
+      this.timer++;
+    }, 1000);
+  }
+
+  stopTimer() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
 }

@@ -1,5 +1,6 @@
 .scoreboard {
     /* Styling des Scoreboards */
+    margin: 10px;
     padding: 10px;
     background-color: #e0e0e0;
     border-radius: 5px;

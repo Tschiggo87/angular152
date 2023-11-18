@@ -31,3 +31,24 @@
     font-size: 2em;
     /* oder eine spezifische Größe wie 40px */
 }
+
+/* Anpassungen für kleinere Bildschirme */
+@media (max-width: 600px) {
+    .game-board {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    }
+
+    .card-container {
+        height: 80px;
+    }
+}
+
+@media (max-width: 400px) {
+    .game-board {
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    }
+
+    .card-container {
+        height: 60px;
+    }
+}

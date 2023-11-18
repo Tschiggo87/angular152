@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MemoryCardComponent } from "../memory-card/memory-card.component";
-import { Card } from '../models/card.model';
+import { Component, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { ScoreboardComponent } from "../scoreboard/scoreboard.component";
+import { CommonModule } from '@angular/common';
+import { MemoryCardComponent } from '../memory-card/memory-card.component';
+import { Card } from '../models/card.model';
 
 @Component({
     selector: 'app-game-board',
@@ -11,20 +11,27 @@ import { ScoreboardComponent } from "../scoreboard/scoreboard.component";
     standalone: true,
     imports: [CommonModule, MemoryCardComponent, ScoreboardComponent]
 })
-export class GameBoardComponent {
+export class GameBoardComponent implements AfterViewInit {
+    @ViewChild(ScoreboardComponent, { static: false }) scoreboardComponent?: ScoreboardComponent;
+
     cards: Card[] = [];
     flippedCards: Card[] = [];
     matchedPairs: number = 0;
     attempts: number = 0;
-
+    isGameStarted: boolean = false;
 
 
     constructor() {
         this.initializeCards();
     }
+    ngAfterViewInit(): void {
+        if (this.isGameStarted) {
+            this.scoreboardComponent?.startTimer();
+        }
+    }
 
     initializeCards(): void {
-        const emojis = ['😀', '😂', '🎉', '💖', '🚀', '🌈', '🐻‍❄️'];
+        const emojis = ['😀', '😂', '🎉', '💖', '🚀', '🌈', '🐻‍❄️', '🐸'];
         let id = 0;
 
         emojis.forEach(emoji => {
@@ -49,7 +56,12 @@ export class GameBoardComponent {
             if (card.isFlipped) {
                 this.flippedCards.push(card);
                 this.checkMatch();
-            } else {
+            }
+            if (!this.isGameStarted) {
+                this.isGameStarted = true;
+                this.scoreboardComponent?.startTimer();
+            }
+            else {
                 this.removeCardFromFlipped(card);
             }
         }
@@ -64,6 +76,11 @@ export class GameBoardComponent {
                 secondCard.isMatched = true;
                 this.matchedPairs++;
                 this.attempts++;
+
+                if (this.matchedPairs === this.cards.length / 2) {
+                    // Alle Paare wurden gefunden, Timer stoppen
+                    this.scoreboardComponent?.stopTimer();
+                }
             } else {
                 setTimeout(() => {
                     firstCard.isFlipped = false;
@@ -72,9 +89,10 @@ export class GameBoardComponent {
                 }, 1000);
             }
 
-            this.flippedCards = []; 
+            this.flippedCards = [];
         }
     }
+
 
     removeCardFromFlipped(card: Card): void {
         this.flippedCards = this.flippedCards.filter(c => c.id !== card.id);
