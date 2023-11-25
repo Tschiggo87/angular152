@@ -1,8 +1,15 @@
 <h1>Memory</h1>
 <app-scoreboard [matchedPairs]="matchedPairs" [attempts]="attempts"></app-scoreboard>
-<div class="game-board">
+
+<!-- Karten werden nur angezeigt, wenn das Spiel gestartet ist -->
+<div class="game-board" *ngIf="isGameStarted">
     <div class="card-container" *ngFor="let card of cards" (click)="flipCard(card)">
         <span class="emoji" *ngIf="card.isFlipped">{{ card.emoji }}</span>
         <span class="emoji" *ngIf="!card.isFlipped">🔒</span>
     </div>
 </div>
+
+<!-- Button zum Starten/Beenden des Spiels -->
+<button class="button" (click)="toggleGameStart()">
+    {{ isGameStarted ? 'Spiel beenden' : 'Spiel starten' }}
+</button>

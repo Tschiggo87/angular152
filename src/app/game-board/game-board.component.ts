@@ -21,7 +21,7 @@ export class GameBoardComponent implements AfterViewInit {
     isGameStarted: boolean = false;
 
     constructor() {
-        this.initializeCards();
+
     }
 
     ngAfterViewInit(): void {
@@ -88,6 +88,20 @@ export class GameBoardComponent implements AfterViewInit {
             }
 
             this.flippedCards = [];
+        }
+    }
+
+    // Methode zum Starten/Beenden des Spiels
+    toggleGameStart(): void {
+        this.isGameStarted = !this.isGameStarted;
+
+        if (this.isGameStarted) {
+            this.initializeCards();
+           this.scoreboardComponent?.startTimer();
+        } else {
+            // Logik zum Beenden des Spiels
+            this.scoreboardComponent?.stopTimer();
+          
         }
     }
 }

@@ -27,12 +27,19 @@
     border-radius: 10px;
 }
 
-.emoji {
-    font-size: 2em;
-    /* oder eine spezifische Größe wie 40px */
+.button{
+    height: 40px;
+    border-radius: 12px;
+    border: none;
+    margin: 0 10px;
+    font-size: 1em;
 }
 
-/* Anpassungen für kleinere Bildschirme */
+.emoji {
+    font-size: 2em;
+}
+
+
 @media (max-width: 600px) {
     .game-board {
         grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
